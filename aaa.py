@@ -26,28 +26,24 @@ def on_delete(index):
   for widget in canvas.winfo_children():
     widget.destroy()
     
-  create_labels(0)
+  create_labels()
   
 
-def create_labels(index):
-  if(index == len(nameList)):
-    return
-    
-  tk.Label(
-    canvas,
-    text=nameList[index],
-    bg=CANVAS_BG,
-    fg=CANVAS_FG,
-    font=(CANVAS_FONT, CANVAS_FONT_SIZE)
-  ).place(x=150, y=(index+1)*40)
-  tk.Button(
-    canvas,
-    text='X',
-    fg=DLT_BTN_FG,
-    command=lambda:on_delete(index)
-  ).place(x=290, y=(index+1)*40)
-  
-  create_labels(index + 1)
+def create_labels():
+  for idx, name in enumerate(nameList):
+    tk.Label(
+      canvas,
+      text=name,
+      bg=CANVAS_BG,
+      fg=CANVAS_FG,
+      font=(CANVAS_FONT, CANVAS_FONT_SIZE)
+    ).place(x=150, y=(idx+1)*40)
+    tk.Button(
+      canvas,
+      text='X',
+      fg=DLT_BTN_FG,
+      command=lambda i=idx: on_delete(i)
+    ).place(x=290, y=(idx+1)*40)
 
 
 def on_enter(event):
@@ -77,9 +73,9 @@ def on_enter(event):
 labelframe = tk.LabelFrame(window, text="名前")
 labelframe.grid(row = 0, column = 0, pady=10)
 canvas = tk.Canvas(
-  labelframe,
-  bg = CANVAS_BG,
-  height=WINDOW_HEIGHT-50,
+labelframe,
+bg = CANVAS_BG,
+height=WINDOW_HEIGHT-50,
 )
 canvas.pack(fill="both")
 
@@ -91,8 +87,8 @@ input_container = tk.Frame(window)
 input_container.grid(row = 0, column = 1, sticky="w")
 
 tk.Label(input_container, text="名前入力：").grid(
-  ipady=5,
-  sticky="w"
+ipady=5,
+sticky="w"
 )
 
 Entry1 = tk.Entry(input_container)
